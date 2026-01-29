@@ -5,9 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@TeleOp(name = "MecanumTeleOp (Blocks to Java)")
-public class MecanumTeleOp extends LinearOpMode {
+@TeleOp(name = "MecanumJava (Blocks to Java)")
+public class MecanumJava extends LinearOpMode {
 /** this is fun*/
   private Servo Feeder;
   private DcMotor In;
@@ -25,6 +26,7 @@ public class MecanumTeleOp extends LinearOpMode {
   /**
    * Describe this function...
    */
+
   private void manualCoreHexAndServoControl() {
     // Manual control for the Core Hex feeder
     if (gamepad1.dpad_down) {
@@ -65,7 +67,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
     FlyWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     FlyWheel.setDirection(DcMotor.Direction.REVERSE);
-    Feeder.setPower(0);
+    Feeder.setPosition(0);
     bankVelocity = 1300;
     farVelocity = 1500;
     maxVelocity = 1950;
@@ -96,7 +98,7 @@ public class MecanumTeleOp extends LinearOpMode {
    */
   private void maxPowerAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(maxVelocity);
-    In.setPower(1);
+    In.setPower(-.9);
     if (((DcMotorEx) FlyWheel).getVelocity() >= maxVelocity - 100) {
         Feeder.setPosition(1);
     } else {
@@ -135,7 +137,7 @@ public class MecanumTeleOp extends LinearOpMode {
       ((DcMotorEx) FlyWheel).setVelocity(maxVelocity);
     } else {
       ((DcMotorEx) FlyWheel).setVelocity(0);
-        Feeder.setPosition(0);
+        Feeder.setPosition(1);
       // The check below is in place to prevent stuttering with the servo. It checks if the servo is under manual control!
       if (!gamepad1.dpad_right && !gamepad1.dpad_left) {
           Feeder.setPosition(0);
@@ -148,11 +150,12 @@ public class MecanumTeleOp extends LinearOpMode {
    */
   private void farPowerAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(farVelocity);
-    In.setPower(1);
+    In.setPower(-.9);
     if (((DcMotorEx) FlyWheel).getVelocity() >= farVelocity - 100) {
       Feeder.setPosition(1);
     } else {
       Feeder.setPosition(0);
     }
   }
+
 }
