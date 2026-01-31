@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Mechanisms;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,7 +9,7 @@ public class ServoV3 {
 
 
     public void init(HardwareMap hwMap) {
-        Feeder - hwMap.get(Servo.class, "Feeder");
+        Feeder = hwMap.get(Servo.class, "Feeder");
     }
 
     public void setServoPos(double angle) {
