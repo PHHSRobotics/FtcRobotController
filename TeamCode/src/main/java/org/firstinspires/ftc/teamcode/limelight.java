@@ -19,16 +19,12 @@ public class limelight extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        // Initialize Limelight
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(1);
-
-        // Initialize IMU
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP
-        );
+                RevHubOrientationOnRobot.UsbFacingDirection.UP);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         limelight.start();
@@ -39,33 +35,33 @@ public class limelight extends LinearOpMode {
 
         while (opModeIsActive()) {
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
-
-            LLResult result = limelight.getLatestResult();
-            if (result != null && result.isValid()) {
+            limelight.updateRobotOrientation(orientation.getYaw(/**AngleUnit.DEGREES*/));
+            LLResult LLResult = limelight.getLatestResult();
+            if (LLResult != null && LLResult.isValid()) {
                 // Access general information
-                Pose3D botpose = result.getBotpose();
-                telemetry.addData("tx", result.getTx());
-                telemetry.addData("ta", result.getTa());
+                Pose3D botpose = LLResult.getBotpose_MT2();
+                telemetry.addData("tx", LLResult.getTx());
+                telemetry.addData("ta", LLResult.getTa());
                 telemetry.addData("Botpose", botpose.toString());
-                telemetry.addData("txnc", result.getTxNC());
-                telemetry.addData("ty", result.getTy());
-                telemetry.addData("tync", result.getTyNC());
+                telemetry.addData("yaw", botpose.getOrientation().getYaw());
+                telemetry.addData("txnc", LLResult.getTxNC());
+                telemetry.addData("ty", LLResult.getTy());
+                telemetry.addData("tync", LLResult.getTyNC());
 
                 // Access barcode results
-                List<LLResultTypes.BarcodeResult> barcodeResults = result.getBarcodeResults();
+                List<LLResultTypes.BarcodeResult> barcodeResults = LLResult.getBarcodeResults();
                 for (LLResultTypes.BarcodeResult br : barcodeResults) {
                     telemetry.addData("Barcode", "Data: %s", br.getData());
                 }
 
                 // Access classifier results
-                List<LLResultTypes.ClassifierResult> classifierResults = result.getClassifierResults();
+                List<LLResultTypes.ClassifierResult> classifierResults = LLResult.getClassifierResults();
                 for (LLResultTypes.ClassifierResult cr : classifierResults) {
                     telemetry.addData("Classifier", "Class: %s, Confidence: %.2f", cr.getClassName(), cr.getConfidence());
                 }
 
                 // Access detector results
-                List<LLResultTypes.DetectorResult> detectorResults = result.getDetectorResults();
+                List<LLResultTypes.DetectorResult> detectorResults = LLResult.getDetectorResults();
                 for (LLResultTypes.DetectorResult dr : detectorResults) {
                     telemetry.addData("Detector", "Class: %s, Area: %.2f", dr.getClassName(), dr.getTargetArea());
                 }

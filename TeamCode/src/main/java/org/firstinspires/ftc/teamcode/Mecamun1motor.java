@@ -8,21 +8,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-@TeleOp(name = "MecanumJavaNoLL (Blocks to Java)")
-public class MecamunJavaNoLL extends LinearOpMode {
+@TeleOp(name = "Mecanum1Motor (Blocks to Java)")
+public class Mecamun1motor extends LinearOpMode {
 /** this is fun*/
   private DcMotor In;
   private DcMotor FlyWheel;
-  private DcMotor HWheel;
+ // private DcMotor HWheel;
   private DcMotor BL;
   private DcMotor BR;
   private DcMotor FL;
@@ -104,7 +102,7 @@ public class MecamunJavaNoLL extends LinearOpMode {
     Feeder = hardwareMap.get(Servo.class, "Feeder");
     In = hardwareMap.get(DcMotor.class, "In");
     FlyWheel = hardwareMap.get(DcMotor.class, "FlyWheel");
-    HWheel = hardwareMap.get(DcMotor.class, "HWheel");
+    //HWheel = hardwareMap.get(DcMotor.class, "HWheel");
     BL = hardwareMap.get(DcMotor.class, "BL");
     BR = hardwareMap.get(DcMotor.class, "BR");
     FL = hardwareMap.get(DcMotor.class, "FL");
@@ -112,8 +110,8 @@ public class MecamunJavaNoLL extends LinearOpMode {
 
     FlyWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     FlyWheel.setDirection(DcMotor.Direction.REVERSE);
-    HWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    HWheel.setDirection(DcMotor.Direction.REVERSE);
+    //HWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    //HWheel.setDirection(DcMotor.Direction.REVERSE);
     Feeder.setPosition(0.0);
     bankVelocity = 1300;
     farVelocity = 1500;
@@ -192,8 +190,8 @@ public class MecamunJavaNoLL extends LinearOpMode {
               telemetry.addData("Yaw", botpose.getOrientation().getYaw(AngleUnit.DEGREES));
           }
         telemetry.addData("theVelocity", theVelocity);
-        telemetry.addData("HWheel Velocity", ((DcMotorEx) HWheel).getVelocity());
-        telemetry.addData("HWheel Power", HWheel.getPower());
+        //telemetry.addData("HWheel Velocity", ((DcMotorEx) HWheel).getVelocity());
+        //telemetry.addData("HWheel Power", HWheel.getPower());
         telemetry.addData("Flywheel Velocity", ((DcMotorEx) FlyWheel).getVelocity());
         telemetry.addData("Flywheel Power", FlyWheel.getPower());
         telemetry.addData("Distance", distance);
@@ -207,7 +205,7 @@ public class MecamunJavaNoLL extends LinearOpMode {
    */
   private void maxPowerAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(maxVelocity);
-    ((DcMotorEx) HWheel).setVelocity(maxVelocity);
+    //((DcMotorEx) HWheel).setVelocity(maxVelocity);
     In.setPower(-.9);
     if (((DcMotorEx) FlyWheel).getVelocity() >= maxVelocity - 140) {
         Feeder.setPosition(0.2);
@@ -221,7 +219,7 @@ public class MecamunJavaNoLL extends LinearOpMode {
    */
   private void bankShotAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(bankVelocity);
-    ((DcMotorEx) HWheel).setVelocity(bankVelocity);
+    //((DcMotorEx) HWheel).setVelocity(bankVelocity);
     In.setPower(-1);
     if (((DcMotorEx) FlyWheel).getVelocity() >= bankVelocity - 50) {
         Feeder.setPosition(0.2);
@@ -236,20 +234,20 @@ public class MecamunJavaNoLL extends LinearOpMode {
   private void setFlywheelVelocity() {
     if (gamepad1.options) {
       FlyWheel.setPower(-0.5);
-      HWheel.setPower(-0.5);
+      //HWheel.setPower(-0.5);
     } else if (gamepad1.left_bumper) {
       farPowerAuto();
     } else if (gamepad1.right_bumper) {
       maxPowerAuto();
     } else if (gamepad1.triangle) {
       ((DcMotorEx) FlyWheel).setVelocity(theVelocity);
-      ((DcMotorEx) HWheel).setVelocity(theVelocity);
+      //((DcMotorEx) HWheel).setVelocity(theVelocity);
     } else if (gamepad1.square) {
       ((DcMotorEx) FlyWheel).setVelocity(maxVelocity);
-      ((DcMotorEx) HWheel).setVelocity(maxVelocity);
+      //((DcMotorEx) HWheel).setVelocity(maxVelocity);
     } else {
       ((DcMotorEx) FlyWheel).setVelocity(0);
-      ((DcMotorEx) HWheel).setVelocity(0);
+      //((DcMotorEx) HWheel).setVelocity(0);
         Feeder.setPosition(0.2);
       // The check below is in place to prevent stuttering with the servo. It checks if the servo is under manual control!
       if (!gamepad1.dpad_right && !gamepad1.dpad_left) {
@@ -263,7 +261,7 @@ public class MecamunJavaNoLL extends LinearOpMode {
    */
   private void farPowerAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(farVelocity);
-    ((DcMotorEx) HWheel).setVelocity(farVelocity);
+    //((DcMotorEx) HWheel).setVelocity(farVelocity);
     In.setPower(-.9);
     if (((DcMotorEx) FlyWheel).getVelocity() >= farVelocity - 90) {
         Feeder.setPosition(0.2);
