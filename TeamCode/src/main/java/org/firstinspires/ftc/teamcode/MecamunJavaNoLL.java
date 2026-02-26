@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
+@Disabled
 @TeleOp(name = "MecanumJavaNoLL (Blocks to Java)")
 public class MecamunJavaNoLL extends LinearOpMode {
 /** this is fun*/

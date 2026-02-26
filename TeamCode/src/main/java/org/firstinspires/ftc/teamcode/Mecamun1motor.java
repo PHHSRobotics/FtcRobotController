@@ -121,7 +121,7 @@ public class Mecamun1motor extends LinearOpMode {
     waitForStart();
     if (opModeIsActive()) {
       while (opModeIsActive()) {
-          theVelocity = (1485/ta);
+          theVelocity = (1447.5/ta);
           LLResult result = limelight.getLatestResult();
           if (result != null && result.isValid()) {
               if (gamepad1.right_bumper || gamepad1.left_bumper || gamepad1.triangle) {
@@ -145,9 +145,9 @@ public class Mecamun1motor extends LinearOpMode {
 
           steering_adjust = 0.0f;
           if (tx > 0.05) {
-              steering_adjust = KpAim * heading_error - min_aim_command;
+              steering_adjust = (float) (KpAim * heading_error - min_aim_command - 0.2);
           } else if (tx < -0.05) {
-              steering_adjust = KpAim * heading_error + min_aim_command;
+              steering_adjust = (float) (KpAim * heading_error + min_aim_command - 0.2);
           }
 
           float distance_adjust = KADistance * distance_error;
@@ -261,7 +261,6 @@ public class Mecamun1motor extends LinearOpMode {
    */
   private void farPowerAuto() {
     ((DcMotorEx) FlyWheel).setVelocity(farVelocity);
-    //((DcMotorEx) HWheel).setVelocity(farVelocity);
     In.setPower(-.9);
     if (((DcMotorEx) FlyWheel).getVelocity() >= farVelocity - 90) {
         Feeder.setPosition(0.2);
